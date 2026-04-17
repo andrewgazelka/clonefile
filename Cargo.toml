@@ -1,0 +1,28 @@
+[package]
+name = "clonefile"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/andrewgazelka/clonefile"
+description = "Thin Rust wrapper around macOS clonefile(2) / clonefileat(2) / fclonefileat(2)."
+categories = ["filesystem", "os::macos-apis", "api-bindings"]
+keywords = ["macos", "apfs", "clonefile", "cow", "sandbox"]
+readme = "README.md"
+
+[[bin]]
+name = "clonefile"
+path = "src/main.rs"
+
+[lib]
+name = "clonefile"
+path = "src/lib.rs"
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "warn"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+
+[dependencies]
+bitflags = "2.11.1"
+libc = "0.2.185"
