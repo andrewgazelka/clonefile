@@ -110,15 +110,19 @@ mod tests {
     use super::*;
     use std::fs;
 
-    fn tmpdir() -> std::path::PathBuf {
-        let base = std::env::temp_dir().join(format!("clonefile-test-{}", std::process::id()));
+    fn tmpdir(tag: &str) -> std::path::PathBuf {
+        let base = std::env::temp_dir().join(format!(
+            "clonefile-test-{}-{tag}",
+            std::process::id()
+        ));
+        let _ = fs::remove_dir_all(&base);
         fs::create_dir_all(&base).unwrap();
         base
     }
 
     #[test]
     fn clones_a_regular_file() {
-        let dir = tmpdir();
+        let dir = tmpdir("clones_a_regular_file");
         let src = dir.join("a");
         let dst = dir.join("b");
         fs::write(&src, b"hello").unwrap();
@@ -129,7 +133,7 @@ mod tests {
 
     #[test]
     fn clones_a_directory_tree() {
-        let dir = tmpdir();
+        let dir = tmpdir("clones_a_directory_tree");
         let src = dir.join("src");
         let dst = dir.join("dst");
         fs::create_dir_all(src.join("nested")).unwrap();
@@ -141,7 +145,7 @@ mod tests {
 
     #[test]
     fn destination_must_not_exist() {
-        let dir = tmpdir();
+        let dir = tmpdir("destination_must_not_exist");
         let src = dir.join("a");
         let dst = dir.join("b");
         fs::write(&src, b"").unwrap();
